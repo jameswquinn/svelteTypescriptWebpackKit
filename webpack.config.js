@@ -1,3 +1,9 @@
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+
 module.exports = {
   mode: "production",
   entry: {
@@ -33,7 +39,29 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new CleanWebpackPlugin({
+      //root: path.join(__dirname, "dist"),
+      verbose: true,
+      dry: false
+    }),
+    //new OptimizeCssAssetsPlugin(),
+    new TerserPlugin({
+      cache: true,
+      parallel: true,
+      extractComments: true,
+      sourceMap: true, // Must be set to true if using source-maps in production
+      terserOptions: {
+        // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+      }
+    }),
+    new CompressionPlugin({
+      algorithm: "gzip"
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static"
+    })
+  ],
   optimization: {
     splitChunks: {
       cacheGroups: {
