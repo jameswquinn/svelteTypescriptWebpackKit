@@ -1,0 +1,20 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=759670
+    // for the documentation about the jsconfig.json format
+    "sourceMap": true,
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": ["types/*"]
+        },
+        "outDir": "./dist/",
+        "target": "es6",
+        "module": "esnext",
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
