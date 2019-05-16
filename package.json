@@ -12,6 +12,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "dayjs": "^1.8.14",
+    "lit-element": "^2.1.0",
     "lodash-es": "^4.17.11",
     "luxon": "^1.13.2",
     "mini-css-extract-plugin": "^0.6.0",

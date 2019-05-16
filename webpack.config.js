@@ -1,4 +1,5 @@
 const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
@@ -11,6 +12,10 @@ module.exports = {
   },
   resolve: {
     extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte"]
+  },
+  output: {
+    filename: "[name].js",
+    chunkFilename: "[name].[id].js"
   },
   module: {
     rules: [
@@ -36,14 +41,25 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          "css-loader"
+        ]
       }
     ]
   },
   plugins: [
     new CleanWebpackPlugin({
-      //root: path.join(__dirname, "dist"),
       verbose: true,
       dry: false
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css"
     }),
     //new OptimizeCssAssetsPlugin(),
     new TerserPlugin({
