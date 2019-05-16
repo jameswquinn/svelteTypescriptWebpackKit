@@ -1,9 +1,16 @@
+const autoprefixer = require("autoprefixer");
+const precss = require("precss");
+
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+
+
+
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -43,12 +50,31 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/,
+        test: /\.s?[ac]ss$/,
         use: [
+          MiniCssExtractPlugin.loader,
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: "css-loader",
+            options: {
+              url: false,
+              sourceMap: false
+            }
           },
-          "css-loader"
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: function() {
+                return [precss, autoprefixer];
+              },
+              sourceMap: false
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: false
+            }
+          }
         ]
       }
     ]
@@ -61,7 +87,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css"
     }),
-    //new OptimizeCssAssetsPlugin(),
+    new OptimizeCssAssetsPlugin(),
     new TerserPlugin({
       cache: true,
       parallel: true,
