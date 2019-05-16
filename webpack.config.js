@@ -76,6 +76,24 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        loader: "babel-loader",
+
+        options: {
+          plugins: ["syntax-dynamic-import"],
+
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                modules: false
+              }
+            ]
+          ]
+        },
+
+        test: /\.js$/
       }
     ]
   },
