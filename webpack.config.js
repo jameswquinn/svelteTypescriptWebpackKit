@@ -3,6 +3,7 @@ const precss = require("precss");
 
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
@@ -21,8 +22,8 @@ module.exports = {
     extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte"]
   },
   output: {
-    filename: "[name].js",
-    chunkFilename: "[name].[id].js"
+    filename: "[name][contentHash].js",
+    chunkFilename: "[name][contentHash].[id].js"
   },
   module: {
     rules: [
@@ -102,8 +103,30 @@ module.exports = {
       verbose: true,
       dry: false
     }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      hash: false,
+      filename: "index.html",
+      template: "./src/app.html",
+      filename: "index.html",
+      meta: {
+        author: "James W Quinn",
+        description: "Free Web tutorials",
+        keywords: "HTML,CSS,XML,JavaScript",
+        copyright: "JWQ©2019",
+        robots: "index,follow"
+      },
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      }
+    }),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: "[name][contentHash].css"
     }),
     new OptimizeCssAssetsPlugin(),
     new TerserPlugin({
