@@ -17,7 +17,7 @@ const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   mode: "production",
   entry: {
-    bundle: ["./src/svelte"]
+    bundle: ["./src/anime"]
   },
   resolve: {
     extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte", ".vue"]
@@ -117,7 +117,12 @@ module.exports = {
         removeRedundantAttributes: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,
-        useShortDoctype: true
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
       }
     }),
     new MiniCssExtractPlugin({
