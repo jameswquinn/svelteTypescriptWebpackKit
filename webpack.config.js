@@ -12,14 +12,15 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
   mode: "production",
   entry: {
-    bundle: ["./src/index"]
+    bundle: ["./src/svelte"]
   },
   resolve: {
-    extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte"]
+    extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte", ".vue"]
   },
   output: {
     filename: "[name][contentHash].js",
@@ -37,6 +38,10 @@ module.exports = {
             hotReload: true
           }
         }
+      },
+      {
+        test: /\.vue$/,
+        use: "vue-loader"
       },
       {
         test: /\.tsx?$/,
@@ -103,19 +108,9 @@ module.exports = {
       verbose: true,
       dry: false
     }),
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      inject: true,
-      hash: false,
-      filename: "index.html",
-      template: "./src/app.html",
-      filename: "index.html",
-      meta: {
-        author: "James W Quinn",
-        description: "Free Web tutorials",
-        keywords: "HTML,CSS,XML,JavaScript",
-        copyright: "JWQ©2019",
-        robots: "index,follow"
-      },
+      template: "src/index.html",
       minify: {
         collapseWhitespace: true,
         removeComments: true,

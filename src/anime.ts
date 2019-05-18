@@ -1,12 +1,3 @@
-/*
-import App from "./App.svelte";
-var app = new App({
-  target: document.body
-});
-
-export default app;
-*/
-
 import anime from "animejs/lib/anime.es.js";
 import "./main.css";
 import "./style.css";
