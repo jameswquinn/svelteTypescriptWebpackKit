@@ -1,5 +1,6 @@
 const autoprefixer = require("autoprefixer");
 const precss = require("precss");
+const path = require("path");
 
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -15,12 +16,13 @@ const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   mode: "production",
   entry: {
-    bundle: ["./src/vue-app"]
+    bundle: ["./src/anime/main"]
   },
   resolve: {
-    extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte", ".vue"]
+    extensions: [".mjs", ".js", ".ts", ".tsx", ".tag", ".svelte", ".vue"]
   },
   output: {
+    path: path.join(__dirname, "dist"),
     filename: "[name]~[contentHash].js",
     chunkFilename: "[name]~[contentHash].[id].js"
   },
@@ -39,7 +41,21 @@ module.exports = {
       },
       {
         test: /\.vue$/,
+        exclude: /node_modules/,
         use: "vue-loader"
+      },
+      {
+        test: /\.tag$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "riot-tag-loader",
+            options: {
+              hot: true,
+              type: "es6"
+            }
+          }
+        ]
       },
       {
         test: /\.tsx?$/,
@@ -177,7 +193,7 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/
         }
       },
-      chunks: "async",
+      chunks: "all",
       minChunks: 1,
       minSize: 30000,
       name: true
