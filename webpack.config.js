@@ -9,22 +9,20 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
-
-
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
   mode: "production",
   entry: {
-    bundle: ["./src/anime"]
+    bundle: ["./src/vue-app"]
   },
   resolve: {
     extensions: [".mjs", ".js", ".ts", ".tsx", ".svelte", ".vue"]
   },
   output: {
-    filename: "[name][contentHash].js",
-    chunkFilename: "[name][contentHash].[id].js"
+    filename: "[name]~[contentHash].js",
+    chunkFilename: "[name]~[contentHash].[id].js"
   },
   module: {
     rules: [
@@ -100,6 +98,32 @@ module.exports = {
         },
 
         test: /\.js$/
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: "html-loader",
+          options: {
+            attrs: [":data-src", ":src", ":srcset", ":data-srcset"]
+          }
+        }
+      },
+      {
+        test: /\.(jpe?g|png)$/i,
+        loader: "responsive-loader",
+        options: {
+          adapter: require("responsive-loader/sharp")
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name]~[sha512:hash:base64:7].[ext]",
+            outputPath: "imgs"
+          }
+        }
       }
     ]
   },
@@ -126,7 +150,7 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: "[name][contentHash].css"
+      filename: "[name]~[contentHash].css"
     }),
     new OptimizeCssAssetsPlugin(),
     new TerserPlugin({
