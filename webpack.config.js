@@ -16,7 +16,7 @@ const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   mode: "production",
   entry: {
-    bundle: ["./src/anime/main"]
+    bundle: ["./src/preact/main"]
   },
   resolve: {
     extensions: [".mjs", ".js", ".ts", ".tsx", ".tag", ".svelte", ".vue"]
@@ -110,7 +110,14 @@ module.exports = {
                 modules: false
               }
             ]
+          ],
+          plugins: [
+            ["transform-react-jsx", 
+            { 
+              pragma: "h" 
+            }
           ]
+        ]
         },
 
         test: /\.js$/
