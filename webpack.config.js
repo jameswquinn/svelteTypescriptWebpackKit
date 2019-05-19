@@ -19,7 +19,7 @@ module.exports = {
     bundle: ["./src/preact/main"]
   },
   resolve: {
-    extensions: [".mjs", ".js", ".ts", ".tsx", ".tag", ".svelte", ".vue"]
+    extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx", ".tag", ".svelte", ".vue"]
   },
   output: {
     path: path.join(__dirname, "dist"),
@@ -120,7 +120,7 @@ module.exports = {
         ]
         },
 
-        test: /\.js$/
+        test: /\.jsx?$/
       },
       {
         test: /\.html$/,

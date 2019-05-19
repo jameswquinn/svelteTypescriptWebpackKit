@@ -4,6 +4,8 @@
     "sourceMap": true,
     "compilerOptions": {
         "experimentalDecorators": true,
+        "jsx": "react",
+        "jsxFactory": "h",
         "baseUrl": ".",
         "paths": {
             "*": ["types/*"]
